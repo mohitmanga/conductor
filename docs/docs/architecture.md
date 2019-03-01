@@ -1,7 +1,7 @@
 # High Level Architecture
-![Architecture](images/conductor-architecture.png)
+![Architecture](img/conductor-architecture.png)
 
-The API and storage layers are pluggable and provide ability to work with different backend and queue service providers.
+The API and storage layers are pluggable and provide ability to work with different backends and queue service providers.
 
 # Installing and Running
 
@@ -34,27 +34,26 @@ cd ui
 gulp watch
 ```
 
-#### Or Start all the services using [docker-compose](/docker/docker-compose.yaml)
+#### Or Start all the services using [docker-compose](https://github.com/Netflix/conductor/blob/master/docker/docker-compose.yaml)
 
 ```shell
 cd docker
 docker-compose up
 ```
 
-If you ran it locally, launch UI at [http://localhost:3000/](http://localhost:3000/) or if you have ran it using docker-compose launch the UI at [http://localhost:5000/](http://localhost:5000/)
+If you ran it locally, launch UI at [http://localhost:3000/](http://localhost:3000/) OR if you ran it using docker-compose launch the UI at [http://localhost:5000/](http://localhost:5000/)
 
 !!!Note:
-	The server will load a sample kitchen sink workflow definition by default.  See [here](/metadata/kitchensink/) for details.
-
+	The server will load a sample kitchensink workflow definition by default.  See [here](/metadata/kitchensink/) for details.
 
 # Runtime Model
-Conductor follows RPC based communication model where workers are running on a separate machine from the server.  Workers communicate with server over HTTP based endpoints and employs polling model for managing work queues.
+Conductor follows RPC based communication model where workers are running on a separate machine from the server. Workers communicate with server over HTTP based endpoints and employs polling model for managing work queues.
 
-![name_for_alt](overview.png)
+![name_for_alt](img/overview.png)
 
 **Notes**
 
-* Workers are remote systems and communicates over HTTP (or any supported RPC mechanism) with conductor servers.
+* Workers are remote systems and communicates over HTTP with the conductor servers.
 * Task Queues are used to schedule tasks for workers.  We use [dyno-queues][1] internally but it can easily be swapped with SQS or similar pub-sub mechanism.
 * conductor-redis-persistence module uses [Dynomite][2] for storing the state and metadata along with [Elasticsearch][3] for indexing backend.
 * See section under extending backend for implementing support for different databases for storage and indexing.
@@ -98,4 +97,3 @@ POST /tasks
      "status": "COMPLETED"
 }
 ```
-	

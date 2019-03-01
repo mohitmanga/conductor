@@ -17,7 +17,7 @@ Ensure all the tasks are registered via `/metadata/taskdefs` APIs.  Add any miss
 #### Where does my worker run?  How does conductor run my tasks?
 
 Conductor does not run the workers.  When a task is scheduled, it is put into the queue maintained by Conductor.  Workers are required to poll for tasks using `/tasks/poll` API at periodic interval, execute the business logic for the task and report back the results using `POST /tasks` API call. 
-Conductor, however will run [system tasks](/metadata/systask/) on the Conductor server.
+Conductor, however will run [system tasks](/configuration/systask/) on the Conductor server.
 
 #### How can I schedule workflows to run at a specific time?
 
@@ -34,9 +34,16 @@ Yes.  Workers can be written any language as long as they can poll and update th
 
 Conductor provides frameworks for Java and Python to simplify the task of polling and updating the status back to Conductor server.
 
-**Note:** Python client is currently in development and not battle tested for production use cases. 
+**Note:** Python and Go clients have been contributed by the community.
 
 #### How can I get help with Dynomite?
 
 Visit Dynomite's github page.  [https://github.com/Netflix/dynomite](https://github.com/Netflix/dynomite) to find details on setup and support mechanism.
 
+#### My workflow is running and the task is SCHEDULED but it is not being processed.
+
+Make sure that the worker is actively polling for this task. Navigate to the `Poll Data` tab on the Condictor UI and search for your task name in the search box on the top right corner. Ensure that `Last Poll Time` for this task is current and the `Last Polled By` is an active instance. The `Size` column shows the number of scheduled tasks for this task name.
+
+#### How do I configure a notification when my workflow completes or fails?
+
+Refer this [documentation](./configuration/workflowdef/#workflow-notifications) to enable conductor to send out events upon workflow completion/failure.
